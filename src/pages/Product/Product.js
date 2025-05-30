@@ -103,7 +103,7 @@ const Product = () => {
           <img
             key={index}
             src={image.src}
-            alt={`${currentProduct.title} - Image ${index + 1}`}
+            alt={`${currentProduct.title} - ${index + 1}`}
             className="product-image"
             onError={(e) => {
               console.log('Image failed to load:', image.src);

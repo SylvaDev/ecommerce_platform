@@ -1,5 +1,3 @@
-// Printify API utilities will go here
-
 import axios from 'axios';
 
 const api = axios.create({

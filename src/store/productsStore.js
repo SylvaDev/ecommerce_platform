@@ -13,7 +13,7 @@ const useProductsStore = create((set, get) => ({
 
   // Fetch products with pagination
   fetchProducts: async (page = 1, limit = 20) => {
-    const { hasFetched, products } = get();
+    const { hasFetched } = get();
     if (hasFetched && page === 1 && limit === 20) {
       return;
     }
