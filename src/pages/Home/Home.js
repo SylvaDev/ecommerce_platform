@@ -43,7 +43,7 @@ const Home = () => {
                   }}
                 />
                 <h3>{product.title}</h3>
-                <p className="price">${product.variants[0]?.price.toFixed(2)}</p>
+                <p className="price">${(product.variants[0]?.price / 100).toFixed(2)}</p>
               </div>
             ))}
           </div>

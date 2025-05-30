@@ -75,7 +75,7 @@ const Product = () => {
         productId: id,
         variantId: selectedVariant.id,
         quantity,
-        price: selectedVariant.price,
+        price: selectedVariant.price / 100,
         title: currentProduct.title,
         image: currentProduct.images[0]?.src,
         variantTitle: selectedVariant.title
@@ -85,7 +85,7 @@ const Product = () => {
         productId: id,
         variantId: selectedVariant.id,
         quantity,
-        price: selectedVariant.price,
+        price: selectedVariant.price / 100,
         title: currentProduct.title,
         image: currentProduct.images[0]?.src,
         variantTitle: selectedVariant.title
@@ -135,7 +135,7 @@ const Product = () => {
         )}
 
         <div className="product-price">
-          {selectedVariant && <p>${selectedVariant.price.toFixed(2)}</p>}
+          {selectedVariant && <p>${(selectedVariant.price / 100).toFixed(2)}</p>}
         </div>
 
         <div className="product-quantity">
