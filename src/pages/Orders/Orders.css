@@ -1,0 +1,60 @@
+.orders-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.orders-page h1 {
+  margin-bottom: 2rem;
+  color: #333;
+  text-align: center;
+}
+
+.orders-content {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.orders-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.orders-empty h2 {
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 1.75rem;
+}
+
+.orders-empty p {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.orders-empty button {
+  padding: 0.75rem 1.5rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 1rem;
+}
+
+.orders-empty button:hover {
+  background: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .orders-page {
+    padding: 1rem;
+  }
+
+  .orders-content {
+    padding: 1rem;
+  }
+} 

@@ -11,10 +11,10 @@ Hey! This is my personal roadmap for building out my React + Printify + Stripe e
 - [x] Set up routing with react-router-dom
 - [x] Add Zustand store for global state
 - [x] Add placeholders for Printify and Stripe API utils
-- [ ] Add a navigation bar and basic layout (so the app feels like a real store!)
-- [ ] Integrate Printify API to fetch and display products
-- [ ] Build product listing and product detail pages
-- [ ] Implement cart functionality (add, remove, update items)
+- [x] Add a navigation bar and basic layout (so the app feels like a real store!)
+- [x] Integrate Printify API to fetch and display products
+- [x] Build product listing and product detail pages
+- [x] Implement cart functionality (add, remove, update items)
 - [ ] Integrate Stripe Checkout for payments
 - [ ] Set up user authentication (Auth0 or similar)
 - [ ] Create orders dashboard for users to track shipments
