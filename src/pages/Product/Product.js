@@ -28,6 +28,25 @@ const Product = () => {
     }
   }, [variants]);
 
+  // Add new effect to handle image switching when variant changes
+  useEffect(() => {
+    if (selectedVariant && currentProduct?.images) {
+      console.log('Selected variant:', selectedVariant);
+      console.log('Product images:', currentProduct.images);
+      
+      // Find the first image that includes this variant's ID
+      const matchingImageIndex = currentProduct.images.findIndex(image => 
+        image.variant_ids?.includes(selectedVariant.id)
+      );
+      
+      console.log('Found matching image at index:', matchingImageIndex);
+      // If we found a matching image, switch to it, otherwise stay on current image
+      if (matchingImageIndex !== -1) {
+        setCurrentImageIndex(matchingImageIndex);
+      }
+    }
+  }, [selectedVariant, currentProduct?.images]);
+
   if (loading) {
     return (
       <div className="product-loading">
