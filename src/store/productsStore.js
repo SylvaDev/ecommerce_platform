@@ -13,11 +13,6 @@ const useProductsStore = create((set, get) => ({
 
   // Fetch products with pagination
   fetchProducts: async (page = 1, limit = 20) => {
-    const { hasFetched } = get();
-    if (hasFetched && page === 1 && limit === 20) {
-      return;
-    }
-
     set({ loading: true, error: null });
     try {
       const response = await getProducts(page, limit);
@@ -51,9 +46,14 @@ const useProductsStore = create((set, get) => ({
       
       console.log('Product Response:', productResponse);
       
+      // Filter out variants that are not available
+      const availableVariants = (productResponse.variants || []).filter(variant => 
+        variant && variant.is_enabled && variant.is_available
+      );
+      
       set({ 
         currentProduct: productResponse,
-        variants: productResponse.variants || [],
+        variants: availableVariants,
         loading: false 
       });
     } catch (error) {

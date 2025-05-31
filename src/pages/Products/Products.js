@@ -7,7 +7,8 @@ const Products = () => {
   const { products, loading, error, fetchProducts } = useProductsStore();
 
   useEffect(() => {
-    fetchProducts(1);
+    // Fetch all products with a higher limit
+    fetchProducts(1, 50);
   }, [fetchProducts]);
 
   if (loading && products.length === 0) {

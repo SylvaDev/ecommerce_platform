@@ -12,6 +12,7 @@ const Product = () => {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     if (id) {
@@ -21,13 +22,8 @@ const Product = () => {
   }, [id, fetchProductDetails]);
 
   useEffect(() => {
-    console.log('Current product updated:', currentProduct);
-    console.log('Variants updated:', variants);
-  }, [currentProduct, variants]);
-
-  useEffect(() => {
     if (variants && variants.length > 0) {
-      console.log('Setting initial variant:', variants[0]);
+      console.log('Available variants:', variants);
       setSelectedVariant(variants[0]);
     }
   }, [variants]);
@@ -96,21 +92,51 @@ const Product = () => {
     }
   };
 
+  const handlePreviousImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === 0 ? currentProduct.images.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === currentProduct.images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
   return (
     <div className="product-detail">
       <div className="product-gallery">
-        {currentProduct.images && currentProduct.images.map((image, index) => (
-          <img
-            key={index}
-            src={image.src}
-            alt={`${currentProduct.title} - ${index + 1}`}
-            className="product-image"
-            onError={(e) => {
-              console.log('Image failed to load:', image.src);
-              e.target.src = 'https://via.placeholder.com/300x300?text=No+Image';
-            }}
-          />
-        ))}
+        {currentProduct.images && currentProduct.images.length > 0 && (
+          <>
+            <button 
+              className="gallery-nav prev" 
+              onClick={handlePreviousImage}
+              aria-label="Previous image"
+            >
+              &#10094;
+            </button>
+            <img
+              src={currentProduct.images[currentImageIndex].src}
+              alt={`${currentProduct.title} - ${currentImageIndex + 1}`}
+              className="product-image"
+              onError={(e) => {
+                console.log('Image failed to load:', currentProduct.images[currentImageIndex].src);
+                e.target.src = 'https://via.placeholder.com/300x300?text=No+Image';
+              }}
+            />
+            <button 
+              className="gallery-nav next" 
+              onClick={handleNextImage}
+              aria-label="Next image"
+            >
+              &#10095;
+            </button>
+            <div className="image-counter">
+              {currentImageIndex + 1} / {currentProduct.images.length}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="product-info">
@@ -119,17 +145,19 @@ const Product = () => {
 
         {variants && variants.length > 0 && (
           <div className="product-variants">
-            <h3>Select Options</h3>
-            <div className="variant-options">
-              {variants.map((variant) => (
-                <button
-                  key={variant.id}
-                  className={`variant-option ${selectedVariant?.id === variant.id ? 'selected' : ''}`}
-                  onClick={() => setSelectedVariant(variant)}
-                >
-                  {variant.title}
-                </button>
-              ))}
+            <div className="variant-section">
+              <h3>Options</h3>
+              <div className="variant-options">
+                {variants.map((variant) => (
+                  <button
+                    key={variant.id}
+                    className={`variant-option ${selectedVariant?.id === variant.id ? 'selected' : ''}`}
+                    onClick={() => setSelectedVariant(variant)}
+                  >
+                    {variant.title}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}
