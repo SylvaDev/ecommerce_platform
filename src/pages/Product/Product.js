@@ -13,6 +13,8 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -23,10 +25,24 @@ const Product = () => {
 
   useEffect(() => {
     if (variants && variants.length > 0) {
-      console.log('Available variants:', variants);
-      setSelectedVariant(variants[0]);
+      const firstVariant = variants[0];
+      if (firstVariant && firstVariant.title) {
+        const [color, size] = firstVariant.title.split(' / ');
+        setSelectedColor(color);
+        setSelectedSize(size);
+        setSelectedVariant(firstVariant);
+      }
     }
   }, [variants]);
+
+  useEffect(() => {
+    if (selectedColor && selectedSize && variants) {
+      const matchingVariant = variants.find(variant => 
+        variant && variant.title === `${selectedColor} / ${selectedSize}`
+      );
+      setSelectedVariant(matchingVariant || null);
+    }
+  }, [selectedColor, selectedSize, variants]);
 
   // Add new effect to handle image switching when variant changes
   useEffect(() => {
@@ -123,6 +139,33 @@ const Product = () => {
     );
   };
 
+  const getUniqueOptions = (optionName) => {
+    if (!variants || !optionName) return [];
+    const options = new Set();
+    
+    variants.forEach(variant => {
+      if (variant && variant.title) {
+        const [color, size] = variant.title.split(' / ');
+        if (optionName.toLowerCase() === 'size') {
+          options.add(size);
+        } else if (optionName.toLowerCase() === 'color') {
+          options.add(color);
+        }
+      }
+    });
+    
+    return Array.from(options);
+  };
+
+  const getAvailableVariants = (selectedColor, selectedSize) => {
+    if (!variants) return [];
+    return variants.filter(variant => {
+      const [color, size] = variant.title.split(' / ');
+      return (!selectedColor || color === selectedColor) && 
+             (!selectedSize || size === selectedSize);
+    });
+  };
+
   return (
     <div className="product-detail">
       <div className="product-gallery">
@@ -165,15 +208,30 @@ const Product = () => {
         {variants && variants.length > 0 && (
           <div className="product-variants">
             <div className="variant-section">
-              <h3>Options</h3>
+              <h3>Color</h3>
               <div className="variant-options">
-                {variants.map((variant) => (
+                {getUniqueOptions('color').map((color) => (
                   <button
-                    key={variant.id}
-                    className={`variant-option ${selectedVariant?.id === variant.id ? 'selected' : ''}`}
-                    onClick={() => setSelectedVariant(variant)}
+                    key={color}
+                    className={`variant-option ${selectedColor === color ? 'selected' : ''}`}
+                    onClick={() => setSelectedColor(color)}
                   >
-                    {variant.title}
+                    {color}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="variant-section">
+              <h3>Size</h3>
+              <div className="variant-options">
+                {getUniqueOptions('size').map((size) => (
+                  <button
+                    key={size}
+                    className={`variant-option ${selectedSize === size ? 'selected' : ''}`}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
                   </button>
                 ))}
               </div>
